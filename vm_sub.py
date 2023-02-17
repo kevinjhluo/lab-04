@@ -14,11 +14,11 @@ def on_connect(client, userdata, flags, rc):
 
     print("Connected to server (i.e., broker) with result code "+str(rc))
     #replace user with your USC username in all subscriptions
-    client.subscribe("user/ipinfo")
-    
+    client.subscribe("luok/ipinfo")
+    client.subscribe("luok/current_datetime")
     #Add the custom callbacks by indicating the topic and the name of the callback handle
-    client.message_callback_add("user/ipinfo", on_message_from_ipinfo)
-
+    client.message_callback_add("luok/ipinfo", on_message_from_ipinfo)
+    client.message_callback_add("luok/current_datetime", on_message_from_datetime)
 
 """This object (functions are objects!) serves as the default callback for 
 messages received when another node publishes a message this client is 
@@ -31,7 +31,8 @@ def on_message(client, userdata, msg):
 def on_message_from_ipinfo(client, userdata, message):
    print("Custom callback  - IP Message: "+message.payload.decode())
 
-
+def on_message_from_datetime(client, userdata, message):
+   print("Custom callback  - date and time: "+message.payload.decode())
 
 
 if __name__ == '__main__':
